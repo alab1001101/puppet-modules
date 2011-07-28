@@ -16,6 +16,7 @@ class apache::params  {
         debian  => "/etc/apache2/sites-available",
         centos  => "/etc/httpd/conf.d",
         redhat  => "/etc/httpd/conf.d",
+        sles    => "/etc/apache2/vhosts.d",
     }
 
 # MODULES INTERNAL VARIABLES
@@ -24,24 +25,28 @@ class apache::params  {
         freebsd => "apache20",
         debian  => "apache2",
         ubuntu  => "apache2",
+        sles    => "apache2",
         default => "httpd",
     }
 
     $servicename = $operatingsystem ? {
         debian  => "apache2",
         ubuntu  => "apache2",
+        sles    => "apache2",
         default => "httpd",
     }
 
     $servicepattern = $operatingsystem ? {
         debian  => "/usr/sbin/apache2",
         ubuntu  => "/usr/sbin/apache2",
+        sles    => "/usr/sbin/httpd2",
         default => "/usr/sbin/httpd",
     }
 
     $processname = $operatingsystem ? {
         debian  => "apache2",
         ubuntu  => "apache2",
+        sles    => "httpd2",
         default => "httpd",
     }
 
@@ -54,6 +59,7 @@ class apache::params  {
     $username = $operatingsystem ? {
         debian  => "www-data",
         ubuntu  => "www-data",
+        sles    => "wwwrun",
         default => "apache",
     }
 
@@ -61,6 +67,7 @@ class apache::params  {
         freebsd => "/usr/local/etc/apache20/httpd.conf",
         ubuntu  => "/etc/apache2/apache2.conf",
         debian  => "/etc/apache2/apache2.conf",
+        sles    => "/etc/apache2/httpd.conf",
         default => "/etc/httpd/conf/httpd.conf",
     }
 
@@ -81,19 +88,26 @@ class apache::params  {
         freebsd => "/usr/local/etc/apache20",
         ubuntu  => "/etc/apache2",
         debian  => "/etc/apache2",
+        sles    => "/etc/apache2",
         default => "/etc/httpd/conf",
+    }
+
+    $dotconfdir = $operatingsystem ? {
+        default => "$configdir/conf.d",
     }
 
     $documentroot = $operatingsystem ? {
         debian  => "/var/www",
         ubuntu  => "/var/www",
         suse    => "/srv/www",
+        sles    => "/srv/www",
         default => "/var/www/html",
     }
 
     $initconfigfile = $operatingsystem ? {
         debian  => "/etc/default/apache2",
         ubuntu  => "/etc/default/apache2",
+        sles    => "/etc/sysconfig/apache2",
         default => "/etc/sysconfig/httpd",
     }
     
@@ -101,6 +115,7 @@ class apache::params  {
     $pidfile = $operatingsystem ? {
         ubuntu  => "/var/run/apache2.pid",
         debian  => "/var/run/apache2.pid",
+        sles    => "/var/run/httpd2.pid",
         default => "/var/run/httpd.pid",
     }
 
@@ -113,6 +128,7 @@ class apache::params  {
     $logdir = $operatingsystem ? {
         debian  => "/var/log/apache2",
         ubuntu  => "/var/log/apache2",
+        sles    => "/var/log/apache2",
         default => "/var/log/httpd",
     }
 
